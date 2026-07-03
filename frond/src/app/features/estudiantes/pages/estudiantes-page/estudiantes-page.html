@@ -1,0 +1,81 @@
+<section class="pagina-feature">
+  <header class="encabezado-pagina">
+    <div>
+      <p class="etiqueta-seccion">Servicio maestro</p>
+      <h2>Estudiantes</h2>
+    </div>
+    <button class="boton-secundario" type="button" (click)="cargarEstudiantes()">Actualizar</button>
+  </header>
+
+  <div class="panel-formulario">
+    <h3>{{ estudianteEditandoId ? 'Editar estudiante' : 'Registrar estudiante' }}</h3>
+
+    <form class="formulario-datos" (ngSubmit)="guardarEstudiante()">
+      <label>
+        DNI
+        <input name="dni" [(ngModel)]="estudianteFormulario.dni" required minlength="8" />
+      </label>
+
+      <label>
+        Nombre
+        <input name="firstName" [(ngModel)]="estudianteFormulario.firstName" required />
+      </label>
+
+      <label>
+        Apellido
+        <input name="lastName" [(ngModel)]="estudianteFormulario.lastName" required />
+      </label>
+
+      <label>
+        Promocion
+        <input name="promotion" [(ngModel)]="estudianteFormulario.promotion" required />
+      </label>
+
+      <label>
+        Fecha
+        <input name="date" type="date" [(ngModel)]="estudianteFormulario.date" required />
+      </label>
+
+      <div class="acciones-formulario">
+        <button class="boton-primario" type="submit">{{ estudianteEditandoId ? 'Guardar cambios' : 'Registrar' }}</button>
+        <button class="boton-texto" type="button" (click)="cancelarEdicion()">Limpiar</button>
+      </div>
+    </form>
+  </div>
+
+  <p class="mensaje-exito" *ngIf="mensaje">{{ mensaje }}</p>
+  <p class="mensaje-error" *ngIf="error">{{ error }}</p>
+
+  <div class="panel-tabla">
+    <div class="estado-carga" *ngIf="cargando">Cargando estudiantes...</div>
+
+    <table class="tabla-datos" *ngIf="!cargando">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>DNI</th>
+          <th>Nombre</th>
+          <th>Promocion</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of estudiantes">
+          <td>{{ student.id }}</td>
+          <td>{{ student.dni }}</td>
+          <td>{{ student.firstName }} {{ student.lastName }}</td>
+          <td>{{ student.promotion }}</td>
+          <td>{{ student.date }}</td>
+          <td class="columna-acciones">
+            <button class="boton-tabla" type="button" (click)="editarEstudiante(student)">Editar</button>
+            <button class="boton-peligro" type="button" (click)="eliminarEstudiante(student)">Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="estudiantes.length === 0">
+          <td colspan="6" class="tabla-vacia">No hay estudiantes registrados.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,0 +1,96 @@
+<section class="pagina-feature">
+  <header class="encabezado-pagina">
+    <div>
+      <p class="etiqueta-seccion">Servicio transaccional</p>
+      <h2>Matriculas</h2>
+    </div>
+    <button class="boton-secundario" type="button" (click)="cargarDatos()">Actualizar</button>
+  </header>
+
+  <div class="panel-formulario">
+    <h3>{{ matriculaEditandoId ? 'Editar matricula' : 'Registrar matricula' }}</h3>
+
+    <form class="formulario-datos" (ngSubmit)="guardarMatricula()">
+      <label>
+        Estudiante
+        <select name="studentId" [(ngModel)]="matriculaFormulario.studentId" required>
+          <option [ngValue]="0">Seleccione un estudiante</option>
+          <option *ngFor="let student of estudiantes" [ngValue]="student.id">
+            {{ student.id }} - {{ student.firstName }} {{ student.lastName }}
+          </option>
+        </select>
+      </label>
+
+      <label>
+        Curso
+        <input name="courseName" [(ngModel)]="matriculaFormulario.courseName" required />
+      </label>
+
+      <label>
+        Fecha de matricula
+        <input name="enrollmentDate" type="date" [(ngModel)]="matriculaFormulario.enrollmentDate" required />
+      </label>
+
+      <label>
+        Estado
+        <select name="status" [(ngModel)]="matriculaFormulario.status" required>
+          <option value="ACTIVA">ACTIVA</option>
+          <option value="PENDIENTE">PENDIENTE</option>
+          <option value="CANCELADA">CANCELADA</option>
+        </select>
+      </label>
+
+      <div class="acciones-formulario">
+        <button class="boton-primario" type="submit">{{ matriculaEditandoId ? 'Guardar cambios' : 'Registrar' }}</button>
+        <button class="boton-texto" type="button" (click)="cancelarEdicion()">Limpiar</button>
+      </div>
+    </form>
+  </div>
+
+  <p class="mensaje-exito" *ngIf="mensaje">{{ mensaje }}</p>
+  <p class="mensaje-error" *ngIf="error">{{ error }}</p>
+
+  <article class="panel-detalle" *ngIf="detalleSeleccionado">
+    <div>
+      <span class="detalle-etiqueta">Detalle consumido</span>
+      <h3>{{ detalleSeleccionado.student.firstName }} {{ detalleSeleccionado.student.lastName }}</h3>
+    </div>
+    <p>DNI: {{ detalleSeleccionado.student.dni }}</p>
+    <p>Curso: {{ detalleSeleccionado.enrollment.courseName }}</p>
+    <p>Estado: {{ detalleSeleccionado.enrollment.status }}</p>
+  </article>
+
+  <div class="panel-tabla">
+    <div class="estado-carga" *ngIf="cargando">Cargando matriculas...</div>
+
+    <table class="tabla-datos" *ngIf="!cargando">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Estudiante</th>
+          <th>Curso</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let enrollment of matriculas">
+          <td>{{ enrollment.id }}</td>
+          <td>{{ obtenerNombreEstudiante(enrollment.studentId) }}</td>
+          <td>{{ enrollment.courseName }}</td>
+          <td>{{ enrollment.enrollmentDate }}</td>
+          <td><span class="estado-matricula">{{ enrollment.status }}</span></td>
+          <td class="columna-acciones">
+            <button class="boton-tabla" type="button" (click)="verDetalle(enrollment)">Detalle</button>
+            <button class="boton-tabla" type="button" (click)="editarMatricula(enrollment)">Editar</button>
+            <button class="boton-peligro" type="button" (click)="eliminarMatricula(enrollment)">Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="matriculas.length === 0">
+          <td colspan="6" class="tabla-vacia">No hay matriculas registradas.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

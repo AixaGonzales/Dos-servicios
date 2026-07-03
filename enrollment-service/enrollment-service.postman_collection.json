@@ -1,0 +1,83 @@
+{
+  "info": {
+    "name": "enrollment-service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Listar matriculas",
+      "request": {
+        "method": "GET",
+        "url": "{{enrollmentUrl}}/v1/api/enrollment/list"
+      }
+    },
+    {
+      "name": "Buscar matricula por ID",
+      "request": {
+        "method": "GET",
+        "url": "{{enrollmentUrl}}/v1/api/enrollment/find/1"
+      }
+    },
+    {
+      "name": "Detalle con estudiante",
+      "request": {
+        "method": "GET",
+        "url": "{{enrollmentUrl}}/v1/api/enrollment/detail/1"
+      }
+    },
+    {
+      "name": "Matriculas por estudiante",
+      "request": {
+        "method": "GET",
+        "url": "{{enrollmentUrl}}/v1/api/enrollment/student/1"
+      }
+    },
+    {
+      "name": "Registrar matricula",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"studentId\": 1,\n  \"courseName\": \"Programacion I\",\n  \"enrollmentDate\": \"2026-07-02\",\n  \"status\": \"ACTIVA\"\n}"
+        },
+        "url": "{{enrollmentUrl}}/v1/api/enrollment/register"
+      }
+    },
+    {
+      "name": "Actualizar matricula",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"studentId\": 1,\n  \"courseName\": \"Base de Datos\",\n  \"enrollmentDate\": \"2026-07-02\",\n  \"status\": \"ACTIVA\"\n}"
+        },
+        "url": "{{enrollmentUrl}}/v1/api/enrollment/update/1"
+      }
+    },
+    {
+      "name": "Eliminar matricula",
+      "request": {
+        "method": "DELETE",
+        "url": "{{enrollmentUrl}}/v1/api/enrollment/delete/1"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "enrollmentUrl",
+      "value": "http://localhost:8095"
+    }
+  ]
+}

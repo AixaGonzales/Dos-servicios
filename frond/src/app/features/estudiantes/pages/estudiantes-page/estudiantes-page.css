@@ -1,0 +1,169 @@
+.pagina-feature {
+  display: grid;
+  gap: 20px;
+}
+
+.encabezado-pagina {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.etiqueta-seccion {
+  margin: 0 0 6px;
+  color: #2f7d62;
+  font-weight: 700;
+}
+
+.encabezado-pagina h2 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.panel-formulario,
+.panel-tabla {
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.panel-formulario h3 {
+  margin: 0 0 16px;
+}
+
+.formulario-datos {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(140px, 1fr));
+  gap: 14px;
+  align-items: end;
+}
+
+.formulario-datos label {
+  display: grid;
+  gap: 6px;
+  color: #405064;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.formulario-datos input {
+  min-height: 40px;
+  border: 1px solid #c8d2df;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.acciones-formulario {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.boton-primario,
+.boton-secundario,
+.boton-texto,
+.boton-tabla,
+.boton-peligro {
+  border: 0;
+  border-radius: 6px;
+  min-height: 38px;
+  padding: 0 14px;
+  font-weight: 700;
+}
+
+.boton-primario {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.boton-secundario {
+  background: #e8eef7;
+  color: #203a59;
+}
+
+.boton-texto {
+  background: transparent;
+  color: #4b5563;
+}
+
+.mensaje-exito,
+.mensaje-error {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.mensaje-exito {
+  background: #e8f8ef;
+  color: #17613b;
+}
+
+.mensaje-error {
+  background: #fdecec;
+  color: #9b1c1c;
+}
+
+.tabla-datos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-datos th,
+.tabla-datos td {
+  padding: 12px;
+  border-bottom: 1px solid #e5eaf0;
+  text-align: left;
+}
+
+.tabla-datos th {
+  color: #405064;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.columna-acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.boton-tabla {
+  background: #edf2ff;
+  color: #1d4ed8;
+}
+
+.boton-peligro {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.tabla-vacia,
+.estado-carga {
+  color: #667085;
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .formulario-datos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .encabezado-pagina,
+  .acciones-formulario,
+  .columna-acciones {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .formulario-datos {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-tabla {
+    overflow-x: auto;
+  }
+}

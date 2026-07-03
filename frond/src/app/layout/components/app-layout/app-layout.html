@@ -1,0 +1,20 @@
+<div class="contenedor-aplicacion">
+  <aside class="barra-lateral">
+    <div class="marca-sistema">
+      <span class="marca-icono">DS</span>
+      <div>
+        <h1>Dos Servicios</h1>
+        <p>Gestion academica</p>
+      </div>
+    </div>
+
+    <nav class="menu-lateral" aria-label="Menu principal">
+      <a routerLink="/estudiantes" routerLinkActive="enlace-activo">Estudiantes</a>
+      <a routerLink="/matriculas" routerLinkActive="enlace-activo">Matriculas</a>
+    </nav>
+  </aside>
+
+  <main class="contenido-principal">
+    <router-outlet />
+  </main>
+</div>
