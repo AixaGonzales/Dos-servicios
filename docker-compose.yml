@@ -1,0 +1,109 @@
+services:
+  student-mysql:
+    image: mysql:8.0
+    container_name: dos-student-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: studentdb
+      MYSQL_USER: studentuser
+      MYSQL_PASSWORD: studentpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - student_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dos-network
+
+  enrollment-mysql:
+    image: mysql:8.0
+    container_name: dos-enrollment-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: enrollmentdb
+    ports:
+      - "3308:3306"
+    volumes:
+      - enrollment_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dos-network
+
+  student-service:
+    build:
+      context: ./student-service
+      dockerfile: Dockerfile
+    container_name: dos-student-service
+    restart: unless-stopped
+    depends_on:
+      student-mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: 8090
+      DB_HOST: student-mysql
+      DB_PORT: 3306
+      DB_NAME: studentdb
+      DB_USER: studentuser
+      DB_PASSWORD: studentpass
+    ports:
+      - "8090:8090"
+    networks:
+      - dos-network
+
+  enrollment-service:
+    build:
+      context: ./enrollment-service
+      dockerfile: Dockerfile
+    container_name: dos-enrollment-service
+    restart: unless-stopped
+    depends_on:
+      enrollment-mysql:
+        condition: service_healthy
+      student-service:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: 8095
+      DB_HOST: enrollment-mysql
+      DB_PORT: 3306
+      DB_NAME: enrollmentdb
+      DB_USER: root
+      DB_PASSWORD: rootpassword
+      STUDENT_SERVICE_URL: http://student-service:8090
+    ports:
+      - "8095:8095"
+    networks:
+      - dos-network
+
+  frond:
+    build:
+      context: ./frond
+      dockerfile: Dockerfile
+    container_name: dos-frond
+    restart: unless-stopped
+    depends_on:
+      - student-service
+      - enrollment-service
+    ports:
+      - "4200:80"
+    networks:
+      - dos-network
+
+volumes:
+  student_mysql_data:
+  enrollment_mysql_data:
+
+networks:
+  dos-network:
+    driver: bridge

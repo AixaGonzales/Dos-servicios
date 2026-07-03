@@ -147,7 +147,49 @@ curl -X GET http://localhost:8095/v1/api/enrollment/detail/1
 
 ## Ejecutar con Docker
 
-Cada microservicio tiene su propio `docker-compose.yml`.
+El repositorio incluye un `docker-compose.yml` en la raiz para levantar todo junto:
+
+- MySQL de estudiantes
+- MySQL de matriculas
+- `student-service`
+- `enrollment-service`
+- `frond`
+
+Desde la raiz del proyecto:
+
+```bash
+docker compose up -d --build
+```
+
+URLs:
+
+- Frontend: `http://localhost:4200`
+- student-service: `http://localhost:8090`
+- enrollment-service: `http://localhost:8095`
+- MySQL estudiantes: `localhost:3306`
+- MySQL matriculas: `localhost:3308`
+
+Ver logs:
+
+```bash
+docker compose logs -f
+```
+
+Detener todo:
+
+```bash
+docker compose down
+```
+
+Detener todo y borrar volumenes de base de datos:
+
+```bash
+docker compose down -v
+```
+
+### Docker Compose por servicio
+
+Cada microservicio tambien tiene su propio `docker-compose.yml`.
 
 ### student-service con Docker
 
